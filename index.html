@@ -1,190 +1,855 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Mia Koleen Vidal ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>To Mamamia | A Birthday Surprise</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+        body {
+            background: #fefaf5;
+            font-family: 'Inter', sans-serif;
+            color: #2c221b;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f3ede8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4b89c;
+            border-radius: 8px;
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      color: #fff;
-      text-align: center;
-      overflow-x: hidden;
-    }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 2rem 3rem 2rem;
+        }
 
-    .container {
-      padding: 40px 15px;
-      max-width: 900px;
-      margin: auto;
-    }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 5vw, 3rem);
-      margin-bottom: 10px;
-    }
+        h1 {
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            background: linear-gradient(135deg, #c48b5f, #9b6a42);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
 
-    h2 {
-      font-weight: 300;
-      font-size: clamp(1rem, 3vw, 1.3rem);
-      margin-bottom: 25px;
-    }
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #b47c4a;
+            position: relative;
+            display: inline-block;
+        }
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 2px;
+            background: #e7cfb5;
+            border-radius: 4px;
+        }
 
-    .card {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(15px);
-      border-radius: 25px;
-      padding: 25px;
-      margin: auto;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-    }
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 1rem;
+            position: relative;
+            background: radial-gradient(circle at 20% 30%, rgba(252, 242, 230, 0.6), #fefaf5);
+        }
+        .hero-sub {
+            font-size: 1.2rem;
+            color: #a57854;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .birthday-badge {
+            background: #fff4e9;
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 2rem;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.02);
+            border: 1px solid #ffe3cf;
+        }
+        .birthday-badge i {
+            color: #e2a06b;
+            font-size: 1.1rem;
+        }
 
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
-      border-radius: 30px;
-      background: #fff;
-      color: #e75480;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-      cursor: pointer;
-      border: none;
-    }
+        .scroll-down {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: #b48b62;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
 
-    .btn:hover {
-      transform: scale(1.05);
-      background: #ffe6ec;
-    }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.2rem;
+            margin: 3rem 0;
+        }
+        .memory-card {
+            background: #ffffffea;
+            backdrop-filter: blur(2px);
+            border-radius: 32px;
+            padding: 1.8rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #ffefdf;
+            text-align: center;
+        }
+        .memory-card:hover {
+            transform: translateY(-8px);
+            border-color: #ecdbba;
+            box-shadow: 0 25px 40px -14px rgba(157, 101, 50, 0.15);
+        }
+        .card-icon {
+            font-size: 2.6rem;
+            color: #cc9a6e;
+            margin-bottom: 1rem;
+        }
+        .memory-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.75rem;
+            color: #5e3e2b;
+        }
+        .memory-card p {
+            color: #6f5542;
+            font-weight: 400;
+            line-height: 1.5;
+        }
 
-    .hidden { display: none; margin-top: 20px; }
+        .gallery-section {
+            margin: 4rem 0 3rem;
+        }
+        .polaroid-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .polaroid {
+            background: white;
+            padding: 1rem 1rem 1.4rem 1rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+            transform: rotate(var(--rot, 0deg));
+            transition: transform 0.25s, box-shadow 0.2s;
+            width: 220px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 0 28px 36px -12px rgba(0,0,0,0.2);
+        }
+        .polaroid-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #f0e3d8;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .polaroid-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .polaroid-img .upload-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #c49a74;
+            font-size: 0.8rem;
+            text-align: center;
+            background: #fbefe5;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .polaroid-img .upload-placeholder i {
+            font-size: 2rem;
+            color: #cc9a6e;
+        }
+        .polaroid-caption {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #a57753;
+            letter-spacing: 0.3px;
+        }
+        .image-upload-input {
+            display: none;
+        }
 
-    img {
-      width: 100%;
-      border-radius: 15px;
-      margin-top: 15px;
-    }
+        .letter {
+            background: #fffbf7;
+            border-radius: 48px;
+            padding: 2.8rem 2rem;
+            margin: 3rem 0;
+            border: 1px solid #f5e3d4;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.03);
+        }
+        .letter p {
+            font-size: 1.2rem;
+            line-height: 1.65;
+            font-weight: 400;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #4e3827;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            text-align: center;
+        }
+        .signature {
+            margin-top: 2rem;
+            text-align: right;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #b47c4a;
+            border-top: 1px dashed #eedbcb;
+            padding-top: 1.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    footer {
-      margin-top: 30px;
-      font-size: 0.85rem;
-      opacity: 0.8;
-    }
+        .countdown-box {
+            background: #fff2e9;
+            border-radius: 42px;
+            padding: 1.8rem 1.5rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        .time-unit {
+            background: white;
+            border-radius: 28px;
+            padding: 0.8rem 1.2rem;
+            min-width: 80px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.03);
+        }
+        .time-number {
+            font-size: 2.4rem;
+            font-weight: 700;
+            font-family: 'Inter', monospace;
+            color: #c27e4a;
+        }
+        .time-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #b28b69;
+        }
+        .gift-btn {
+            background: #e2be9e;
+            border: none;
+            color: #3b2a1f;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .gift-btn:hover {
+            background: #d4ab83;
+            transform: scale(0.97);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
 
-    /* Floating hearts */
-    .heart {
-      position: fixed;
-      bottom: -10px;
-      font-size: 18px;
-      animation: float 6s linear infinite;
-      color: rgba(255,255,255,0.7);
-    }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-card {
+            background: #fffbf5;
+            max-width: 480px;
+            width: 90%;
+            border-radius: 48px;
+            padding: 2rem 1.8rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 40px 50px rgba(0,0,0,0.2);
+            animation: fadeSlideUp 0.3s ease;
+        }
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #b47c4a;
+        }
+        .modal-card i {
+            font-size: 3.5rem;
+            color: #e0a46b;
+            margin-bottom: 1rem;
+        }
+        .modal-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .modal-card p {
+            font-size: 1rem;
+            color: #5f4635;
+        }
 
-    @keyframes float {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-100vh); opacity: 0; }
-    }
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.4rem;
+            animation: floatUp 2s ease-out forwards;
+            z-index: 999;
+        }
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0.8);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) scale(1.2);
+            }
+        }
 
-    /* Music button */
-    .music-btn {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: rgba(255,255,255,0.25);
-      border: none;
-      padding: 10px 15px;
-      border-radius: 20px;
-      color: white;
-      font-size: 14px;
-      backdrop-filter: blur(10px);
-      cursor: pointer;
-    }
+        /* LOCK SCREEN */
+        .birthday-lock {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fefaf5;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+        .lock-card {
+            text-align: center;
+            max-width: 500px;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 48px;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.08);
+            border: 1px solid #ffe3cf;
+            margin: 1rem;
+        }
+        .lock-card i {
+            font-size: 4rem;
+            color: #e2a06b;
+            margin-bottom: 1.5rem;
+        }
+        .lock-card h2 {
+            font-family: 'Playfair Display', serif;
+            color: #b47c4a;
+            margin-bottom: 1rem;
+        }
+        .lock-card p {
+            color: #6f5542;
+            margin-bottom: 1.8rem;
+            font-size: 1rem;
+        }
+        .lock-timer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        .lock-time-unit {
+            background: #fff4e9;
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            min-width: 70px;
+        }
+        .lock-time-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #c27e4a;
+        }
+        .lock-time-label {
+            font-size: 0.7rem;
+            color: #b28b69;
+        }
+        .birthday-message {
+            margin-top: 1.5rem;
+            font-style: italic;
+            color: #c49a6e;
+        }
+        .preview-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e2be9e;
+            color: #3b2a1f;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0.8;
+        }
 
-    /* Mobile tweaks */
-    @media (max-width: 500px) {
-      .card { padding: 20px; }
-    }
-  </style>
+        .main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease;
+        }
+        .main-content.revealed {
+            opacity: 1;
+            visibility: visible;
+        }
+        .upload-note {
+            text-align: center;
+            font-size: 0.7rem;
+            margin-top: 1rem;
+            color: #b28b69;
+            letter-spacing: 0.3px;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 1rem; }
+            .timer { gap: 0.8rem; }
+            .time-unit { min-width: 65px; padding: 0.5rem 0.8rem; }
+            .time-number { font-size: 1.8rem; }
+            .polaroid { width: 170px; }
+        }
+    </style>
 </head>
 <body>
 
-  <button class="music-btn" onclick="toggleMusic()">🔊 Music</button>
+<!-- LOCK SCREEN (hidden in preview mode) -->
+<div id="birthdayLock" class="birthday-lock">
+    <div class="lock-card">
+        <i class="fas fa-gift"></i>
+        <h2>🎈 A Special Surprise Awaits 🎈</h2>
+        <p>This website is locked until Mamamia's birthday — because the best gifts are worth waiting for.</p>
+        <div class="lock-timer" id="lockTimerContainer">
+            <div class="lock-time-unit"><div class="lock-time-number" id="lockDays">00</div><div class="lock-time-label">Days</div></div>
+            <div class="lock-time-unit"><div class="lock-time-number" id="lockHours">00</div><div class="lock-time-label">Hours</div></div>
+            <div class="lock-time-unit"><div class="lock-time-number" id="lockMinutes">00</div><div class="lock-time-label">Mins</div></div>
+            <div class="lock-time-unit"><div class="lock-time-number" id="lockSeconds">00</div><div class="lock-time-label">Secs</div></div>
+        </div>
+        <div class="birthday-message">
+            <i class="fas fa-heart"></i> November 8th — can't wait to celebrate you!
+        </div>
+    </div>
+</div>
 
-  <div class="container">
-    <h1>Happy Birthday, Mia Koleen Vidal 🎂</h1>
-    <h2>My prettiest girl, my favorite person 💖</h2>
-
-    <div class="card">
-      <p>
-        Today is all about you, my love ❤️
-        <br><br>
-        You are the most beautiful thing that ever happened to me.
-        Every moment with you feels like a dream I never want to wake up from.
-        Thank you for loving me and making my life so much brighter.
-      </p>
-
-      <button class="btn" onclick="showMessage()">Open Your Surprise 💌</button>
-
-      <div id="message" class="hidden">
-        <p>
-          Mia, I love you more than words can explain 💖
-          <br><br>
-          I promise to always be by your side, to support you,
-          to make you smile, and to love you more each day.
-          You deserve the world, and I’ll spend my life trying to give it to you.
-        </p>
-
-        <img src="https://i.imgur.com/4M7IWwP.jpg" alt="Memory">
-      </div>
+<!-- MAIN WEBSITE CONTENT -->
+<div id="mainContent" class="main-content">
+    <div class="hero">
+        <div class="hero-sub">✨ Happy Birthday, Mamamia ✨</div>
+        <h1>For the woman who<br>colors my world</h1>
+        <div class="birthday-badge">
+            <i class="fas fa-cake-candles"></i> Celebrating you — today & always <i class="fas fa-heart" style="color:#e2a06b;"></i>
+        </div>
+        <div class="scroll-down" id="scrollHint">
+            <i class="fas fa-chevron-down"></i>
+        </div>
     </div>
 
-    <footer>
-      Forever yours ❤️
-    </footer>
-  </div>
+    <main class="container">
+        <div class="grid-2">
+            <div class="memory-card">
+                <div class="card-icon"><i class="fas fa-smile-wink"></i></div>
+                <h3>Her Laughter</h3>
+                <p>The melody that makes every ordinary day feel like a celebration. Bright, warm, and absolutely contagious.</p>
+            </div>
+            <div class="memory-card">
+                <div class="card-icon"><i class="fas fa-brain"></i></div>
+                <h3>Her Mind</h3>
+                <p>Brilliant, kind, endlessly curious — you inspire me to dream bigger and love deeper every single day.</p>
+            </div>
+            <div class="memory-card">
+                <div class="card-icon"><i class="fas fa-feather-alt"></i></div>
+                <h3>Her Heart</h3>
+                <p>Generous, fierce, and pure gold. The way you care for everyone around you is a work of art.</p>
+            </div>
+        </div>
 
-  <audio id="bgMusic" loop>
-    <source src="your-music.mp3" type="audio/mpeg">
-  </audio>
+        <div class="gallery-section">
+            <h2 style="text-align: center;">🌿 our memories — add your favorites</h2>
+            <div class="polaroid-row" id="polaroidRow"></div>
+            <div class="upload-note">
+                <i class="fas fa-camera"></i> Click any polaroid to upload a real photo — make it yours, Mamamia!
+            </div>
+        </div>
 
-  <script>
-    function showMessage() {
-      document.getElementById('message').classList.toggle('hidden');
+        <div class="letter">
+            <p>To my dearest Mamamia,</p>
+            <p style="margin-top: 0.5rem;">On your birthday, I wanted to create something made just for you — a corner of the internet that feels as beautiful and timeless as you are. Thank you for your warmth, your patience, and the way you make life feel like poetry. Every moment with you is a gift. Here's to another year of laughing until we cry, dreaming under the stars, and building the life we've always imagined. I love you beyond words.</p>
+            <div class="signature">Forever yours, <br> Your love ♡</div>
+        </div>
+
+        <div class="countdown-box">
+            <h3 style="font-family: 'Playfair Display'; font-size: 1.6rem;"><i class="far fa-clock"></i> Birthday magic</h3>
+            <div class="timer" id="timerContainer">
+                <div class="time-unit"><div class="time-number" id="days">00</div><div class="time-label">Days</div></div>
+                <div class="time-unit"><div class="time-number" id="hours">00</div><div class="time-label">Hours</div></div>
+                <div class="time-unit"><div class="time-number" id="minutes">00</div><div class="time-label">Mins</div></div>
+                <div class="time-unit"><div class="time-number" id="seconds">00</div><div class="time-label">Secs</div></div>
+            </div>
+            <button class="gift-btn" id="surpriseBtn"><i class="fas fa-gift"></i> Open a special surprise</button>
+            <p style="margin-top: 1rem; font-size: 0.8rem; color:#b68b65;"><i class="fas fa-star"></i> because you deserve a universe of happiness</p>
+        </div>
+    </main>
+</div>
+
+<div id="surpriseModal" class="modal">
+    <div class="modal-card">
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+        <i class="fas fa-crown"></i>
+        <h3>A little birthday promise</h3>
+        <p>I'll spend every day making you feel as cherished as you make me feel. But for now… close your eyes and imagine us on a sunset getaway soon! ✨<br><br>💌 This website is yours forever — just like my heart.</p>
+        <div style="margin-top: 1.5rem;"><i class="fas fa-heart" style="color:#e2a06b;"></i> <i class="fas fa-heart" style="color:#e2a06b;"></i> <i class="fas fa-heart" style="color:#e2a06b;"></i></div>
+    </div>
+</div>
+
+<script>
+    // ========== BIRTHDAY CONFIGURATION ==========
+    // Mamamia's birthday: November 8th
+    // Month is 0-indexed: January=0, February=1, ... November=10, December=11
+    const BIRTHDAY_MONTH = 10;   // November = 10
+    const BIRTHDAY_DAY = 8;      // 8th
+    
+    // Preview mode: add ?preview=true to URL to bypass lock screen
+    const urlParams = new URLSearchParams(window.location.search);
+    const isPreviewMode = urlParams.get('preview') === 'true';
+    
+    function isBirthdayToday() {
+        const today = new Date();
+        return today.getMonth() === BIRTHDAY_MONTH && today.getDate() === BIRTHDAY_DAY;
     }
-
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.innerText = '❤';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-      document.body.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 6000);
+    
+    function getTargetBirthday() {
+        const today = new Date();
+        let target = new Date(today.getFullYear(), BIRTHDAY_MONTH, BIRTHDAY_DAY);
+        target.setHours(0, 0, 0, 0);
+        const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        if (target < todayStart) {
+            target = new Date(today.getFullYear() + 1, BIRTHDAY_MONTH, BIRTHDAY_DAY);
+            target.setHours(0, 0, 0, 0);
+        }
+        return target;
     }
-
-    setInterval(createHeart, 400);
-
-    const music = document.getElementById('bgMusic');
-    let playing = false;
-
-    function toggleMusic() {
-      if (!playing) {
-        music.play();
-        playing = true;
-      } else {
-        music.pause();
-        playing = false;
-      }
+    
+    function updateLockCountdown() {
+        const target = getTargetBirthday();
+        const now = new Date();
+        const diff = target - now;
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (86400000)) / (3600000));
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        
+        const lockDaysElem = document.getElementById('lockDays');
+        const lockHoursElem = document.getElementById('lockHours');
+        const lockMinutesElem = document.getElementById('lockMinutes');
+        const lockSecondsElem = document.getElementById('lockSeconds');
+        
+        if (lockDaysElem) lockDaysElem.innerText = days < 10 ? '0' + days : days;
+        if (lockHoursElem) lockHoursElem.innerText = hours < 10 ? '0' + hours : hours;
+        if (lockMinutesElem) lockMinutesElem.innerText = minutes < 10 ? '0' + minutes : minutes;
+        if (lockSecondsElem) lockSecondsElem.innerText = seconds < 10 ? '0' + seconds : seconds;
     }
-  </script>
+    
+    function unlockWebsite() {
+        const lockScreen = document.getElementById('birthdayLock');
+        const mainContent = document.getElementById('mainContent');
+        if (lockScreen && mainContent) {
+            lockScreen.style.display = 'none';
+            mainContent.classList.add('revealed');
+            initWebsiteFeatures();
+        }
+    }
+    
+    function initWebsiteFeatures() {
+        const polaroidData = [
+            { caption: "golden hour walks", defaultIcon: "fas fa-sun" },
+            { caption: "coffee & deep talks", defaultIcon: "fas fa-mug-hot" },
+            { caption: "our little adventures", defaultIcon: "fas fa-map-marked-alt" },
+            { caption: "endless laughter", defaultIcon: "fas fa-laugh-squint" }
+        ];
+        
+        const polaroidRow = document.getElementById('polaroidRow');
+        if (polaroidRow && polaroidRow.children.length === 0) {
+            polaroidData.forEach((item, idx) => {
+                polaroidRow.appendChild(createPolaroid(item, idx));
+            });
+        }
+        
+        function updateMainCountdown() {
+            const target = getTargetBirthday();
+            const now = new Date();
+            const diff = target - now;
+            
+            if (diff <= 0 || isBirthdayToday()) {
+                const daysElem = document.getElementById('days');
+                if (daysElem) {
+                    document.getElementById('days').innerText = "00";
+                    document.getElementById('hours').innerText = "00";
+                    document.getElementById('minutes').innerText = "00";
+                    document.getElementById('seconds').innerText = "00";
+                }
+                const titleElem = document.querySelector('.countdown-box h3');
+                if(titleElem) titleElem.innerHTML = "<i class='fas fa-birthday-cake'></i> IT'S TODAY — HAPPY BIRTHDAY MAMAMIA! 🎉";
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (86400000)) / (3600000));
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            
+            const dElem = document.getElementById('days');
+            if (dElem) {
+                document.getElementById('days').innerText = days < 10 ? '0'+days : days;
+                document.getElementById('hours').innerText = hours < 10 ? '0'+hours : hours;
+                document.getElementById('minutes').innerText = minutes < 10 ? '0'+minutes : minutes;
+                document.getElementById('seconds').innerText = seconds < 10 ? '0'+seconds : seconds;
+            }
+        }
+        
+        updateMainCountdown();
+        setInterval(updateMainCountdown, 1000);
+        
+        const modal = document.getElementById('surpriseModal');
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        
+        function openModal() {
+            if (modal) modal.style.display = 'flex';
+            for(let i = 0; i < 12; i++) createFloatingHeart();
+        }
+        function closeModalFunc() { if (modal) modal.style.display = 'none'; }
+        
+        if (surpriseBtn) surpriseBtn.addEventListener('click', openModal);
+        if (closeModalBtn) closeModalBtn.addEventListener('click', closeModalFunc);
+        if (modal) window.addEventListener('click', (e) => { if(e.target === modal) closeModalFunc(); });
+        
+        const scrollHint = document.getElementById('scrollHint');
+        if(scrollHint) {
+            scrollHint.addEventListener('click', () => {
+                window.scrollTo({ top: window.innerHeight * 0.85, behavior: 'smooth' });
+            });
+        }
+        
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            const icons = ['❤️','💖','🌸','✨','🎂','💕','🌹','💗'];
+            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.bottom = '-10px';
+            heart.style.fontSize = 1 + Math.random() * 1.2 + 'rem';
+            heart.style.animationDuration = 1.5 + Math.random() * 1.5 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2200);
+        }
+        
+        window.createFloatingHeart = createFloatingHeart;
+        for(let i=0;i<6;i++) setTimeout(() => createFloatingHeart(), i*150);
+        
+        const heroTitle = document.querySelector('.hero h1');
+        if(heroTitle) {
+            heroTitle.style.opacity = '0';
+            heroTitle.style.transform = 'translateY(18px)';
+            setTimeout(() => {
+                heroTitle.style.transition = 'all 0.7s ease-out';
+                heroTitle.style.opacity = '1';
+                heroTitle.style.transform = 'translateY(0)';
+            }, 200);
+        }
+    }
+    
+    function createPolaroid(item, index) {
+        const polaroidDiv = document.createElement('div');
+        polaroidDiv.className = 'polaroid';
+        const rot = (Math.random() * 4 - 2).toFixed(1);
+        polaroidDiv.style.setProperty('--rot', rot + 'deg');
+        
+        const imgContainer = document.createElement('div');
+        imgContainer.className = 'polaroid-img';
+        
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.className = 'image-upload-input';
+        fileInput.id = `polaroidUpload_${index}`;
+        
+        const previewWrapper = document.createElement('div');
+        previewWrapper.className = 'upload-placeholder';
+        previewWrapper.id = `previewWrapper_${index}`;
+        const iconElem = document.createElement('i');
+        iconElem.className = item.defaultIcon;
+        const textSpan = document.createElement('span');
+        textSpan.innerText = 'click to add photo';
+        previewWrapper.appendChild(iconElem);
+        previewWrapper.appendChild(textSpan);
+        
+        const imgElem = document.createElement('img');
+        imgElem.style.display = 'none';
+        imgElem.id = `polaroidImg_${index}`;
+        
+        imgContainer.appendChild(fileInput);
+        imgContainer.appendChild(previewWrapper);
+        imgContainer.appendChild(imgElem);
+        
+        const captionDiv = document.createElement('div');
+        captionDiv.className = 'polaroid-caption';
+        captionDiv.innerText = item.caption;
+        
+        polaroidDiv.appendChild(imgContainer);
+        polaroidDiv.appendChild(captionDiv);
+        
+        polaroidDiv.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    imgElem.src = ev.target.result;
+                    imgElem.style.display = 'block';
+                    previewWrapper.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        return polaroidDiv;
+    }
+    
+    // DECISION: Show lock screen or unlock based on preview mode + birthday
+    if (isPreviewMode) {
+        // Preview mode: unlock immediately, show preview badge
+        unlockWebsite();
+        // Add preview badge to indicate it's preview mode
+        const badge = document.createElement('div');
+        badge.className = 'preview-badge';
+        badge.innerHTML = '<i class="fas fa-eye"></i> Preview Mode — You can see it early';
+        document.body.appendChild(badge);
+    } else if (isBirthdayToday()) {
+        unlockWebsite();
+    } else {
+        // Lock screen active, update countdown
+        updateLockCountdown();
+        setInterval(() => {
+            if (isBirthdayToday()) {
+                unlockWebsite();
+            } else {
+                updateLockCountdown();
+            }
+        }, 1000);
+    }
+</script>
 
+<!-- 
+    ✨ HOW TO USE ✨
+    
+    TO PREVIEW (only you can do this):
+    - After deploying to Vercel, visit: https://your-site.vercel.app/?preview=true
+    - This will show you the full website immediately
+    
+    FOR HER (on birthday):
+    - She will visit: https://your-site.vercel.app/ (without ?preview=true)
+    - She will see a lock screen counting down to November 8th
+    - On November 8th, the lock screen disappears and she sees the full gift
+    
+    BIRTHDAY SET: November 8th (already configured)
+    
+    To deploy on Vercel:
+    1. Save this file as index.html
+    2. Create a new project on Vercel and upload this file
+    3. Share the URL with her after her birthday OR set it to auto-deploy
+-->
 </body>
 </html>
