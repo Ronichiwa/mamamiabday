@@ -162,6 +162,7 @@
             line-height: 1.5;
         }
 
+        /* PHOTO ALBUM SECTION - Simple image grid with rotated polaroid style */
         .gallery-section {
             margin: 4rem 0 3rem;
         }
@@ -172,61 +173,34 @@
             gap: 2rem;
             margin-top: 2rem;
         }
-        .polaroid {
+        .memory {
             background: white;
-            padding: 1rem 1rem 1.4rem 1rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+            padding: 0.8rem 0.8rem 1rem 0.8rem;
+            border-radius: 16px;
+            box-shadow: 0 15px 25px -10px rgba(0,0,0,0.15);
             transform: rotate(var(--rot, 0deg));
-            transition: transform 0.25s, box-shadow 0.2s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             width: 220px;
             text-align: center;
-            cursor: default;
         }
-        .polaroid:hover {
-            transform: rotate(0deg) scale(1.02);
-            box-shadow: 0 28px 36px -12px rgba(0,0,0,0.2);
+        .memory:hover {
+            transform: rotate(0deg) scale(1.03);
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.2);
         }
-        .polaroid-img {
+        .memory img {
             width: 100%;
             aspect-ratio: 1 / 1;
-            background: #f0e3d8;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-        .polaroid-img img {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
+            border-radius: 12px;
             display: block;
         }
-        .polaroid-img .placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: #c49a74;
-            font-size: 0.8rem;
-            text-align: center;
-            background: #fbefe5;
-            width: 100%;
-            height: 100%;
-        }
-        .polaroid-img .placeholder i {
-            font-size: 2rem;
-            color: #cc9a6e;
-        }
-        .polaroid-caption {
-            margin-top: 12px;
-            font-size: 0.8rem;
+        .memory-caption {
+            margin-top: 10px;
+            font-size: 0.75rem;
             font-weight: 500;
             color: #a57753;
             letter-spacing: 0.3px;
+            font-family: 'Inter', sans-serif;
         }
 
         .letter {
@@ -456,7 +430,7 @@
         
         @media (max-width: 700px) {
             .container { padding: 1rem; }
-            .polaroid { width: 170px; }
+            .memory { width: 160px; }
         }
     </style>
 </head>
@@ -512,19 +486,15 @@
             </div>
         </div>
 
-        <!-- PHOTO ALBUM SECTION - Simple image upload area -->
+        <!-- PHOTO ALBUM SECTION - Simple image grid with rotated polaroid style -->
         <div class="gallery-section">
             <h2 style="text-align: center;">🌿 our precious memories</h2>
-            <div class="polaroid-row" id="polaroidRow"></div>
-            <div style="text-align: center; margin-top: 1.5rem;">
-                <button id="uploadImagesBtn" style="background: #e2be9e; border: none; color: #3b2a1f; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.85rem;">
-                    <i class="fas fa-upload"></i> Upload Your Photos
-                </button>
-                <input type="file" id="imageUploadInput" accept="image/*" multiple style="display: none;">
-                <p style="font-size: 0.7rem; margin-top: 0.8rem; color: #b28b69;">
-                    <i class="fas fa-heart"></i> Click the button to add your favorite photos
-                </p>
+            <div class="polaroid-row" id="photoAlbum">
+                <!-- Photos will be generated here dynamically -->
             </div>
+            <p style="text-align: center; font-size: 0.7rem; margin-top: 1rem; color: #b28b69;">
+                <i class="fas fa-heart"></i> Our beautiful moments together
+            </p>
         </div>
 
         <div class="letter">
@@ -562,16 +532,26 @@
     const urlParams = new URLSearchParams(window.location.search);
     const isPreviewMode = urlParams.get('preview') === 'true';
     
-    // Default placeholder photos (4 frames)
-    const defaultPhotos = [
-        { caption: "Golden hour walks", icon: "fas fa-sun" },
-        { caption: "Coffee & deep talks", icon: "fas fa-mug-hot" },
-        { caption: "Our little adventures", icon: "fas fa-map-marked-alt" },
-        { caption: "Endless laughter", icon: "fas fa-laugh-squint" }
+    // ========== PHOTO ALBUM CONFIGURATION ==========
+    // ADD YOUR PHOTOS HERE: Just list your image filenames!
+    // Place your photos in the same folder as this HTML file
+    // or in an "images" folder (then use "images/1.jpg")
+    
+    const photoList = [
+        { src: "1.jpg", caption: "Golden hour walks", rot: 2 },
+        { src: "2.jpg", caption: "Coffee & deep talks", rot: -3 },
+        { src: "3.jpg", caption: "Our little adventures", rot: 1 },
+        { src: "4.jpg", caption: "Endless laughter", rot: -2 },
+        { src: "5.jpg", caption: "Beautiful moments", rot: 3 },
+        { src: "6.jpg", caption: "Cherished memories", rot: -1 }
     ];
     
-    // Store uploaded images in localStorage so they persist
-    let uploadedImages = [];
+    // You can add more photos by adding more objects to the array above
+    // Example: { src: "7.jpg", caption: "Sunset date", rot: 2 }
+    
+    // If you want to use a different folder, change the path below
+    // Example: "images/1.jpg" instead of "1.jpg"
+    const imageFolder = ""; // Leave empty for same folder, or use "images/"
     
     function isBirthdayToday() {
         const today = new Date();
@@ -626,133 +606,47 @@
         }
     }
     
-    // Load saved images from localStorage
-    function loadSavedImages() {
-        const saved = localStorage.getItem('mamamia_album_photos');
-        if (saved) {
-            try {
-                uploadedImages = JSON.parse(saved);
-            } catch(e) { uploadedImages = []; }
-        }
-    }
-    
-    // Save images to localStorage
-    function saveImages() {
-        localStorage.setItem('mamamia_album_photos', JSON.stringify(uploadedImages));
-    }
-    
-    // Render the polaroid album
-    function renderAlbum() {
-        const polaroidRow = document.getElementById('polaroidRow');
-        if (!polaroidRow) return;
+    // Render the photo album with the image list
+    function renderPhotoAlbum() {
+        const albumContainer = document.getElementById('photoAlbum');
+        if (!albumContainer) return;
         
-        polaroidRow.innerHTML = '';
+        albumContainer.innerHTML = '';
         
-        // Show up to 8 photos (or fill with placeholders)
-        const totalFrames = 8;
-        
-        for (let i = 0; i < totalFrames; i++) {
-            const photo = uploadedImages[i];
-            const defaultInfo = defaultPhotos[i % defaultPhotos.length];
+        photoList.forEach(photo => {
+            const memoryDiv = document.createElement('div');
+            memoryDiv.className = 'memory';
+            memoryDiv.style.setProperty('--rot', photo.rot + 'deg');
             
-            const polaroidDiv = document.createElement('div');
-            polaroidDiv.className = 'polaroid';
-            const rot = (Math.random() * 4 - 2).toFixed(1);
-            polaroidDiv.style.setProperty('--rot', rot + 'deg');
+            const img = document.createElement('img');
+            img.src = imageFolder + photo.src;
+            img.alt = photo.caption;
             
-            const imgContainer = document.createElement('div');
-            imgContainer.className = 'polaroid-img';
+            // Handle missing images gracefully
+            img.onerror = function() {
+                this.style.backgroundColor = '#f0e3d8';
+                this.style.display = 'flex';
+                this.style.alignItems = 'center';
+                this.style.justifyContent = 'center';
+                this.alt = '📷 Photo coming soon';
+                // Create a fallback icon
+                const parent = this.parentElement;
+                this.style.opacity = '0.6';
+            };
             
-            if (photo && photo.dataUrl) {
-                // Display actual photo
-                const imgElem = document.createElement('img');
-                imgElem.src = photo.dataUrl;
-                imgElem.alt = photo.caption || defaultInfo.caption;
-                imgContainer.appendChild(imgElem);
-            } else {
-                // Display placeholder with icon
-                const placeholder = document.createElement('div');
-                placeholder.className = 'placeholder';
-                const iconElem = document.createElement('i');
-                iconElem.className = defaultInfo.icon;
-                const textSpan = document.createElement('span');
-                textSpan.innerText = 'add photo';
-                placeholder.appendChild(iconElem);
-                placeholder.appendChild(textSpan);
-                imgContainer.appendChild(placeholder);
-            }
+            const captionSpan = document.createElement('div');
+            captionSpan.className = 'memory-caption';
+            captionSpan.innerText = photo.caption;
             
-            const captionDiv = document.createElement('div');
-            captionDiv.className = 'polaroid-caption';
-            if (photo && photo.caption) {
-                captionDiv.innerText = photo.caption;
-            } else {
-                captionDiv.innerText = defaultInfo.caption;
-            }
-            
-            polaroidDiv.appendChild(imgContainer);
-            polaroidDiv.appendChild(captionDiv);
-            polaroidRow.appendChild(polaroidDiv);
-        }
-    }
-    
-    // Handle image upload
-    function setupImageUpload() {
-        const uploadBtn = document.getElementById('uploadImagesBtn');
-        const fileInput = document.getElementById('imageUploadInput');
-        
-        if (!uploadBtn || !fileInput) return;
-        
-        uploadBtn.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        fileInput.addEventListener('change', (event) => {
-            const files = Array.from(event.target.files);
-            if (files.length === 0) return;
-            
-            // Process each file
-            files.forEach((file, index) => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(ev) {
-                        const imageData = {
-                            dataUrl: ev.target.result,
-                            caption: file.name.split('.')[0].slice(0, 20), // Use filename as caption
-                            timestamp: Date.now()
-                        };
-                        
-                        // Add to uploadedImages array (replace or append)
-                        const position = uploadedImages.length;
-                        if (position < 8) {
-                            uploadedImages.push(imageData);
-                        } else {
-                            // If we have 8 already, replace the oldest
-                            uploadedImages.shift();
-                            uploadedImages.push(imageData);
-                        }
-                        
-                        saveImages();
-                        renderAlbum();
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-            
-            // Clear input so same file can be uploaded again if needed
-            fileInput.value = '';
+            memoryDiv.appendChild(img);
+            memoryDiv.appendChild(captionSpan);
+            albumContainer.appendChild(memoryDiv);
         });
     }
     
     function initWebsiteFeatures() {
-        // Load saved images from localStorage
-        loadSavedImages();
-        
-        // Render the album
-        renderAlbum();
-        
-        // Setup image upload functionality
-        setupImageUpload();
+        // Render the photo album
+        renderPhotoAlbum();
         
         // Modal logic
         const modal = document.getElementById('surpriseModal');
@@ -828,23 +722,32 @@
 </script>
 
 <!-- 
-    ✨ SIMPLE PHOTO ALBUM INSTRUCTIONS ✨
+    ✨ HOW TO ADD YOUR PHOTOS ✨
     
-    HOW TO ADD PHOTOS:
-    1. On the website, click the "Upload Your Photos" button
-    2. Select photos from your computer/phone
-    3. Photos will automatically appear in the album
+    SIMPLE STEPS:
     
-    FEATURES:
-    - Album holds up to 8 photos
-    - Photos are saved in your browser (localStorage)
-    - She can also upload her own photos when she sees it!
-    - Photos are displayed in beautiful polaroid frames
+    1. Save your photos with names: 1.jpg, 2.jpg, 3.jpg, 4.jpg, 5.jpg, 6.jpg
+       (or any filenames you want)
     
-    BIRTHDAY SET: November 8th
+    2. Place them in the SAME FOLDER as this HTML file
+    
+    3. The photos will automatically appear in the album with random rotations!
+    
+    TO ADD MORE PHOTOS:
+    - Find the "photoList" array in the script (around line 280)
+    - Add more entries like this:
+    
+    { src: "7.jpg", caption: "Your caption here", rot: 2 },
+    { src: "8.jpg", caption: "Another memory", rot: -1 }
+    
+    TO USE A DIFFERENT FOLDER:
+    - Change the "imageFolder" variable (line 270) to your folder name
+    - Example: const imageFolder = "images/";
+    
+    BIRTHDAY: November 8th (already set)
     PREVIEW MODE: Add ?preview=true to URL to see it early
     
-    The photos are for display only — she cannot click to upload unless she clicks the button.
+    The album looks like a beautiful polaroid gallery with randomly rotated photos!
 -->
 </body>
 </html>
