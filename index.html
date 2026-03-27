@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Mia Koleen Vidal ❤️</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      color: #fff;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      padding: 40px 15px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-weight: 300;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 25px;
+      margin: auto;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      border-radius: 30px;
+      background: #fff;
+      color: #e75480;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: #ffe6ec;
+    }
+
+    .hidden { display: none; margin-top: 20px; }
+
+    img {
+      width: 100%;
+      border-radius: 15px;
+      margin-top: 15px;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -10px;
+      font-size: 18px;
+      animation: float 6s linear infinite;
+      color: rgba(255,255,255,0.7);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    /* Music button */
+    .music-btn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.25);
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      color: white;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 500px) {
+      .card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="music-btn" onclick="toggleMusic()">🔊 Music</button>
+
+  <div class="container">
+    <h1>Happy Birthday, Mia Koleen Vidal 🎂</h1>
+    <h2>My prettiest girl, my favorite person 💖</h2>
+
+    <div class="card">
+      <p>
+        Today is all about you, my love ❤️
+        <br><br>
+        You are the most beautiful thing that ever happened to me.
+        Every moment with you feels like a dream I never want to wake up from.
+        Thank you for loving me and making my life so much brighter.
+      </p>
+
+      <button class="btn" onclick="showMessage()">Open Your Surprise 💌</button>
+
+      <div id="message" class="hidden">
+        <p>
+          Mia, I love you more than words can explain 💖
+          <br><br>
+          I promise to always be by your side, to support you,
+          to make you smile, and to love you more each day.
+          You deserve the world, and I’ll spend my life trying to give it to you.
+        </p>
+
+        <img src="https://i.imgur.com/4M7IWwP.jpg" alt="Memory">
+      </div>
+    </div>
+
+    <footer>
+      Forever yours ❤️
+    </footer>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="your-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    function showMessage() {
+      document.getElementById('message').classList.toggle('hidden');
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerText = '❤';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 400);
+
+    const music = document.getElementById('bgMusic');
+    let playing = false;
+
+    function toggleMusic() {
+      if (!playing) {
+        music.play();
+        playing = true;
+      } else {
+        music.pause();
+        playing = false;
+      }
+    }
+  </script>
+
+</body>
+</html>
