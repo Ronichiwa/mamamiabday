@@ -512,12 +512,18 @@
             </div>
         </div>
 
-        <!-- PHOTO ALBUM SECTION - Fixed photos, she cannot click/upload -->
+        <!-- PHOTO ALBUM SECTION - Simple image upload area -->
         <div class="gallery-section">
             <h2 style="text-align: center;">🌿 our precious memories</h2>
             <div class="polaroid-row" id="polaroidRow"></div>
-            <div class="upload-note" style="text-align: center; font-size: 0.7rem; margin-top: 1rem; color: #b28b69;">
-                <i class="fas fa-heart"></i> A collection of our beautiful moments together
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button id="uploadImagesBtn" style="background: #e2be9e; border: none; color: #3b2a1f; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.85rem;">
+                    <i class="fas fa-upload"></i> Upload Your Photos
+                </button>
+                <input type="file" id="imageUploadInput" accept="image/*" multiple style="display: none;">
+                <p style="font-size: 0.7rem; margin-top: 0.8rem; color: #b28b69;">
+                    <i class="fas fa-heart"></i> Click the button to add your favorite photos
+                </p>
             </div>
         </div>
 
@@ -527,7 +533,7 @@
             <div class="signature">Forever yours, <br> Cedie ♡</div>
         </div>
 
-        <!-- BIRTHDAY MAGIC SECTION - Countdown REMOVED, only gift button remains -->
+        <!-- BIRTHDAY MAGIC SECTION - No countdown, only gift button -->
         <div class="birthday-magic">
             <h3 style="font-family: 'Playfair Display'; font-size: 1.6rem; color: #b47c4a;"><i class="fas fa-star"></i> A Little Birthday Magic</h3>
             <button class="gift-btn" id="surpriseBtn"><i class="fas fa-gift"></i> Open your special surprise</button>
@@ -556,37 +562,16 @@
     const urlParams = new URLSearchParams(window.location.search);
     const isPreviewMode = urlParams.get('preview') === 'true';
     
-    // ========== PRELOADED PHOTOS (You can replace these with your actual image URLs) ==========
-    // IMPORTANT: Replace these URLs with your actual photo links!
-    // You can upload photos to Imgur, Google Drive (get shareable link), or any image hosting service
-    const photoAlbum = [
-        { 
-            caption: "Golden hour walks",
-            imageUrl: null, // Set to null to show placeholder, replace with actual image URL
-            placeholderIcon: "fas fa-sun"
-        },
-        { 
-            caption: "Coffee & deep talks",
-            imageUrl: null,
-            placeholderIcon: "fas fa-mug-hot"
-        },
-        { 
-            caption: "Our little adventures",
-            imageUrl: null,
-            placeholderIcon: "fas fa-map-marked-alt"
-        },
-        { 
-            caption: "Endless laughter",
-            imageUrl: null,
-            placeholderIcon: "fas fa-laugh-squint"
-        }
+    // Default placeholder photos (4 frames)
+    const defaultPhotos = [
+        { caption: "Golden hour walks", icon: "fas fa-sun" },
+        { caption: "Coffee & deep talks", icon: "fas fa-mug-hot" },
+        { caption: "Our little adventures", icon: "fas fa-map-marked-alt" },
+        { caption: "Endless laughter", icon: "fas fa-laugh-squint" }
     ];
     
-    // HOW TO ADD YOUR PHOTOS:
-    // 1. Upload your photos to a free image hosting site like Imgur, PostImage, or Google Drive
-    // 2. Get the direct image URL (ends with .jpg, .png, etc.)
-    // 3. Replace "null" with the URL in quotes, for example:
-    //    imageUrl: "https://i.imgur.com/your-photo.jpg"
+    // Store uploaded images in localStorage so they persist
+    let uploadedImages = [];
     
     function isBirthdayToday() {
         const today = new Date();
@@ -641,14 +626,133 @@
         }
     }
     
-    function initWebsiteFeatures() {
-        // Build photo album (non-clickable, just display photos)
-        const polaroidRow = document.getElementById('polaroidRow');
-        if (polaroidRow && polaroidRow.children.length === 0) {
-            photoAlbum.forEach((item, idx) => {
-                polaroidRow.appendChild(createPolaroidPhoto(item, idx));
-            });
+    // Load saved images from localStorage
+    function loadSavedImages() {
+        const saved = localStorage.getItem('mamamia_album_photos');
+        if (saved) {
+            try {
+                uploadedImages = JSON.parse(saved);
+            } catch(e) { uploadedImages = []; }
         }
+    }
+    
+    // Save images to localStorage
+    function saveImages() {
+        localStorage.setItem('mamamia_album_photos', JSON.stringify(uploadedImages));
+    }
+    
+    // Render the polaroid album
+    function renderAlbum() {
+        const polaroidRow = document.getElementById('polaroidRow');
+        if (!polaroidRow) return;
+        
+        polaroidRow.innerHTML = '';
+        
+        // Show up to 8 photos (or fill with placeholders)
+        const totalFrames = 8;
+        
+        for (let i = 0; i < totalFrames; i++) {
+            const photo = uploadedImages[i];
+            const defaultInfo = defaultPhotos[i % defaultPhotos.length];
+            
+            const polaroidDiv = document.createElement('div');
+            polaroidDiv.className = 'polaroid';
+            const rot = (Math.random() * 4 - 2).toFixed(1);
+            polaroidDiv.style.setProperty('--rot', rot + 'deg');
+            
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'polaroid-img';
+            
+            if (photo && photo.dataUrl) {
+                // Display actual photo
+                const imgElem = document.createElement('img');
+                imgElem.src = photo.dataUrl;
+                imgElem.alt = photo.caption || defaultInfo.caption;
+                imgContainer.appendChild(imgElem);
+            } else {
+                // Display placeholder with icon
+                const placeholder = document.createElement('div');
+                placeholder.className = 'placeholder';
+                const iconElem = document.createElement('i');
+                iconElem.className = defaultInfo.icon;
+                const textSpan = document.createElement('span');
+                textSpan.innerText = 'add photo';
+                placeholder.appendChild(iconElem);
+                placeholder.appendChild(textSpan);
+                imgContainer.appendChild(placeholder);
+            }
+            
+            const captionDiv = document.createElement('div');
+            captionDiv.className = 'polaroid-caption';
+            if (photo && photo.caption) {
+                captionDiv.innerText = photo.caption;
+            } else {
+                captionDiv.innerText = defaultInfo.caption;
+            }
+            
+            polaroidDiv.appendChild(imgContainer);
+            polaroidDiv.appendChild(captionDiv);
+            polaroidRow.appendChild(polaroidDiv);
+        }
+    }
+    
+    // Handle image upload
+    function setupImageUpload() {
+        const uploadBtn = document.getElementById('uploadImagesBtn');
+        const fileInput = document.getElementById('imageUploadInput');
+        
+        if (!uploadBtn || !fileInput) return;
+        
+        uploadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', (event) => {
+            const files = Array.from(event.target.files);
+            if (files.length === 0) return;
+            
+            // Process each file
+            files.forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        const imageData = {
+                            dataUrl: ev.target.result,
+                            caption: file.name.split('.')[0].slice(0, 20), // Use filename as caption
+                            timestamp: Date.now()
+                        };
+                        
+                        // Add to uploadedImages array (replace or append)
+                        const position = uploadedImages.length;
+                        if (position < 8) {
+                            uploadedImages.push(imageData);
+                        } else {
+                            // If we have 8 already, replace the oldest
+                            uploadedImages.shift();
+                            uploadedImages.push(imageData);
+                        }
+                        
+                        saveImages();
+                        renderAlbum();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Clear input so same file can be uploaded again if needed
+            fileInput.value = '';
+        });
+    }
+    
+    function initWebsiteFeatures() {
+        // Load saved images from localStorage
+        loadSavedImages();
+        
+        // Render the album
+        renderAlbum();
+        
+        // Setup image upload functionality
+        setupImageUpload();
         
         // Modal logic
         const modal = document.getElementById('surpriseModal');
@@ -700,45 +804,6 @@
         }
     }
     
-    // Create polaroid photo (non-clickable, like a photo album)
-    function createPolaroidPhoto(item, index) {
-        const polaroidDiv = document.createElement('div');
-        polaroidDiv.className = 'polaroid';
-        const rot = (Math.random() * 4 - 2).toFixed(1);
-        polaroidDiv.style.setProperty('--rot', rot + 'deg');
-        
-        const imgContainer = document.createElement('div');
-        imgContainer.className = 'polaroid-img';
-        
-        if (item.imageUrl && item.imageUrl !== null) {
-            // Display actual photo
-            const imgElem = document.createElement('img');
-            imgElem.src = item.imageUrl;
-            imgElem.alt = item.caption;
-            imgContainer.appendChild(imgElem);
-        } else {
-            // Display placeholder with icon
-            const placeholder = document.createElement('div');
-            placeholder.className = 'placeholder';
-            const iconElem = document.createElement('i');
-            iconElem.className = item.placeholderIcon;
-            const textSpan = document.createElement('span');
-            textSpan.innerText = 'add your photo';
-            placeholder.appendChild(iconElem);
-            placeholder.appendChild(textSpan);
-            imgContainer.appendChild(placeholder);
-        }
-        
-        const captionDiv = document.createElement('div');
-        captionDiv.className = 'polaroid-caption';
-        captionDiv.innerText = item.caption;
-        
-        polaroidDiv.appendChild(imgContainer);
-        polaroidDiv.appendChild(captionDiv);
-        
-        return polaroidDiv;
-    }
-    
     // DECISION: Show lock screen or unlock based on preview mode + birthday
     if (isPreviewMode) {
         // Preview mode: unlock immediately, show preview badge
@@ -763,34 +828,23 @@
 </script>
 
 <!-- 
-    ✨ HOW TO ADD YOUR PHOTOS ✨
+    ✨ SIMPLE PHOTO ALBUM INSTRUCTIONS ✨
     
-    To add real photos to the polaroid album:
+    HOW TO ADD PHOTOS:
+    1. On the website, click the "Upload Your Photos" button
+    2. Select photos from your computer/phone
+    3. Photos will automatically appear in the album
     
-    1. Upload your photos to a free image hosting site:
-       - Imgur: https://imgur.com/upload (after upload, right-click image and "Copy image address")
-       - PostImage: https://postimages.org/
-       - Or use Google Drive (create shareable link and get direct download link)
+    FEATURES:
+    - Album holds up to 8 photos
+    - Photos are saved in your browser (localStorage)
+    - She can also upload her own photos when she sees it!
+    - Photos are displayed in beautiful polaroid frames
     
-    2. Get the direct image URL (should end with .jpg, .png, .jpeg, etc.)
+    BIRTHDAY SET: November 8th
+    PREVIEW MODE: Add ?preview=true to URL to see it early
     
-    3. In the photoAlbum array (line ~365), replace "null" with your image URL:
-       
-       Example:
-       { 
-           caption: "Golden hour walks",
-           imageUrl: "https://i.imgur.com/your-photo.jpg",  // <-- PUT YOUR URL HERE
-           placeholderIcon: "fas fa-sun"
-       },
-    
-    4. Add up to 4 photos (or more by adding new objects to the array)
-    
-    TO PREVIEW (only you): visit https://your-site.vercel.app/?preview=true
-    SHE WILL SEE: lock screen until November 8th, then full photo album
-    
-    BIRTHDAY SET: November 8th ✓
-    PHOTOS: She cannot click them - they work like a photo album ✓
-    COUNTDOWN REMOVED from birthday magic section ✓
+    The photos are for display only — she cannot click to upload unless she clicks the button.
 -->
 </body>
 </html>
