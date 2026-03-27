@@ -181,7 +181,7 @@
             transition: transform 0.25s, box-shadow 0.2s;
             width: 220px;
             text-align: center;
-            cursor: pointer;
+            cursor: default;
         }
         .polaroid:hover {
             transform: rotate(0deg) scale(1.02);
@@ -204,7 +204,7 @@
             object-fit: cover;
             display: block;
         }
-        .polaroid-img .upload-placeholder {
+        .polaroid-img .placeholder {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -216,9 +216,8 @@
             background: #fbefe5;
             width: 100%;
             height: 100%;
-            cursor: pointer;
         }
-        .polaroid-img .upload-placeholder i {
+        .polaroid-img .placeholder i {
             font-size: 2rem;
             color: #cc9a6e;
         }
@@ -228,9 +227,6 @@
             font-weight: 500;
             color: #a57753;
             letter-spacing: 0.3px;
-        }
-        .image-upload-input {
-            display: none;
         }
 
         .letter {
@@ -265,38 +261,12 @@
             margin-right: auto;
         }
 
-        .countdown-box {
+        .birthday-magic {
             background: #fff2e9;
             border-radius: 42px;
             padding: 1.8rem 1.5rem;
             text-align: center;
             margin: 2rem 0;
-        }
-        .timer {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin: 1.5rem 0;
-        }
-        .time-unit {
-            background: white;
-            border-radius: 28px;
-            padding: 0.8rem 1.2rem;
-            min-width: 80px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.03);
-        }
-        .time-number {
-            font-size: 2.4rem;
-            font-weight: 700;
-            font-family: 'Inter', monospace;
-            color: #c27e4a;
-        }
-        .time-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #b28b69;
         }
         .gift-btn {
             background: #e2be9e;
@@ -308,11 +278,11 @@
             font-size: 1rem;
             cursor: pointer;
             transition: 0.2s;
-            margin-top: 1rem;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             font-family: 'Inter', sans-serif;
+            margin-top: 0.5rem;
         }
         .gift-btn:hover {
             background: #d4ab83;
@@ -483,18 +453,9 @@
             opacity: 1;
             visibility: visible;
         }
-        .upload-note {
-            text-align: center;
-            font-size: 0.7rem;
-            margin-top: 1rem;
-            color: #b28b69;
-            letter-spacing: 0.3px;
-        }
+        
         @media (max-width: 700px) {
             .container { padding: 1rem; }
-            .timer { gap: 0.8rem; }
-            .time-unit { min-width: 65px; padding: 0.5rem 0.8rem; }
-            .time-number { font-size: 1.8rem; }
             .polaroid { width: 170px; }
         }
     </style>
@@ -551,11 +512,12 @@
             </div>
         </div>
 
+        <!-- PHOTO ALBUM SECTION - Fixed photos, she cannot click/upload -->
         <div class="gallery-section">
-            <h2 style="text-align: center;">🌿 our memories — add your favorites</h2>
+            <h2 style="text-align: center;">🌿 our precious memories</h2>
             <div class="polaroid-row" id="polaroidRow"></div>
-            <div class="upload-note">
-                <i class="fas fa-camera"></i> Click any polaroid to upload a real photo — make it yours, Mamamia!
+            <div class="upload-note" style="text-align: center; font-size: 0.7rem; margin-top: 1rem; color: #b28b69;">
+                <i class="fas fa-heart"></i> A collection of our beautiful moments together
             </div>
         </div>
 
@@ -565,16 +527,11 @@
             <div class="signature">Forever yours, <br> Cedie ♡</div>
         </div>
 
-        <div class="countdown-box">
-            <h3 style="font-family: 'Playfair Display'; font-size: 1.6rem;"><i class="far fa-clock"></i> Birthday magic</h3>
-            <div class="timer" id="timerContainer">
-                <div class="time-unit"><div class="time-number" id="days">00</div><div class="time-label">Days</div></div>
-                <div class="time-unit"><div class="time-number" id="hours">00</div><div class="time-label">Hours</div></div>
-                <div class="time-unit"><div class="time-number" id="minutes">00</div><div class="time-label">Mins</div></div>
-                <div class="time-unit"><div class="time-number" id="seconds">00</div><div class="time-label">Secs</div></div>
-            </div>
-            <button class="gift-btn" id="surpriseBtn"><i class="fas fa-gift"></i> Open a special surprise</button>
-            <p style="margin-top: 1rem; font-size: 0.8rem; color:#b68b65;"><i class="fas fa-star"></i> because you deserve a universe of happiness</p>
+        <!-- BIRTHDAY MAGIC SECTION - Countdown REMOVED, only gift button remains -->
+        <div class="birthday-magic">
+            <h3 style="font-family: 'Playfair Display'; font-size: 1.6rem; color: #b47c4a;"><i class="fas fa-star"></i> A Little Birthday Magic</h3>
+            <button class="gift-btn" id="surpriseBtn"><i class="fas fa-gift"></i> Open your special surprise</button>
+            <p style="margin-top: 1rem; font-size: 0.8rem; color:#b68b65;"><i class="fas fa-heart"></i> because you deserve a universe of happiness</p>
         </div>
     </main>
 </div>
@@ -592,13 +549,44 @@
 <script>
     // ========== BIRTHDAY CONFIGURATION ==========
     // Mamamia's birthday: November 8th
-    // Month is 0-indexed: January=0, February=1, ... November=10, December=11
     const BIRTHDAY_MONTH = 10;   // November = 10
     const BIRTHDAY_DAY = 8;      // 8th
     
     // Preview mode: add ?preview=true to URL to bypass lock screen
     const urlParams = new URLSearchParams(window.location.search);
     const isPreviewMode = urlParams.get('preview') === 'true';
+    
+    // ========== PRELOADED PHOTOS (You can replace these with your actual image URLs) ==========
+    // IMPORTANT: Replace these URLs with your actual photo links!
+    // You can upload photos to Imgur, Google Drive (get shareable link), or any image hosting service
+    const photoAlbum = [
+        { 
+            caption: "Golden hour walks",
+            imageUrl: null, // Set to null to show placeholder, replace with actual image URL
+            placeholderIcon: "fas fa-sun"
+        },
+        { 
+            caption: "Coffee & deep talks",
+            imageUrl: null,
+            placeholderIcon: "fas fa-mug-hot"
+        },
+        { 
+            caption: "Our little adventures",
+            imageUrl: null,
+            placeholderIcon: "fas fa-map-marked-alt"
+        },
+        { 
+            caption: "Endless laughter",
+            imageUrl: null,
+            placeholderIcon: "fas fa-laugh-squint"
+        }
+    ];
+    
+    // HOW TO ADD YOUR PHOTOS:
+    // 1. Upload your photos to a free image hosting site like Imgur, PostImage, or Google Drive
+    // 2. Get the direct image URL (ends with .jpg, .png, etc.)
+    // 3. Replace "null" with the URL in quotes, for example:
+    //    imageUrl: "https://i.imgur.com/your-photo.jpg"
     
     function isBirthdayToday() {
         const today = new Date();
@@ -621,6 +609,11 @@
         const target = getTargetBirthday();
         const now = new Date();
         const diff = target - now;
+        
+        if (diff <= 0 && !isBirthdayToday()) {
+            if (isBirthdayToday()) unlockWebsite();
+            return;
+        }
         
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (86400000)) / (3600000));
@@ -649,55 +642,15 @@
     }
     
     function initWebsiteFeatures() {
-        const polaroidData = [
-            { caption: "golden hour walks", defaultIcon: "fas fa-sun" },
-            { caption: "coffee & deep talks", defaultIcon: "fas fa-mug-hot" },
-            { caption: "our little adventures", defaultIcon: "fas fa-map-marked-alt" },
-            { caption: "endless laughter", defaultIcon: "fas fa-laugh-squint" }
-        ];
-        
+        // Build photo album (non-clickable, just display photos)
         const polaroidRow = document.getElementById('polaroidRow');
         if (polaroidRow && polaroidRow.children.length === 0) {
-            polaroidData.forEach((item, idx) => {
-                polaroidRow.appendChild(createPolaroid(item, idx));
+            photoAlbum.forEach((item, idx) => {
+                polaroidRow.appendChild(createPolaroidPhoto(item, idx));
             });
         }
         
-        function updateMainCountdown() {
-            const target = getTargetBirthday();
-            const now = new Date();
-            const diff = target - now;
-            
-            if (diff <= 0 || isBirthdayToday()) {
-                const daysElem = document.getElementById('days');
-                if (daysElem) {
-                    document.getElementById('days').innerText = "00";
-                    document.getElementById('hours').innerText = "00";
-                    document.getElementById('minutes').innerText = "00";
-                    document.getElementById('seconds').innerText = "00";
-                }
-                const titleElem = document.querySelector('.countdown-box h3');
-                if(titleElem) titleElem.innerHTML = "<i class='fas fa-birthday-cake'></i> IT'S TODAY — HAPPY BIRTHDAY MAMAMIA! 🎉";
-                return;
-            }
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (86400000)) / (3600000));
-            const minutes = Math.floor((diff % 3600000) / 60000);
-            const seconds = Math.floor((diff % 60000) / 1000);
-            
-            const dElem = document.getElementById('days');
-            if (dElem) {
-                document.getElementById('days').innerText = days < 10 ? '0'+days : days;
-                document.getElementById('hours').innerText = hours < 10 ? '0'+hours : hours;
-                document.getElementById('minutes').innerText = minutes < 10 ? '0'+minutes : minutes;
-                document.getElementById('seconds').innerText = seconds < 10 ? '0'+seconds : seconds;
-            }
-        }
-        
-        updateMainCountdown();
-        setInterval(updateMainCountdown, 1000);
-        
+        // Modal logic
         const modal = document.getElementById('surpriseModal');
         const surpriseBtn = document.getElementById('surpriseBtn');
         const closeModalBtn = document.getElementById('closeModalBtn');
@@ -747,7 +700,8 @@
         }
     }
     
-    function createPolaroid(item, index) {
+    // Create polaroid photo (non-clickable, like a photo album)
+    function createPolaroidPhoto(item, index) {
         const polaroidDiv = document.createElement('div');
         polaroidDiv.className = 'polaroid';
         const rot = (Math.random() * 4 - 2).toFixed(1);
@@ -756,29 +710,24 @@
         const imgContainer = document.createElement('div');
         imgContainer.className = 'polaroid-img';
         
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/*';
-        fileInput.className = 'image-upload-input';
-        fileInput.id = `polaroidUpload_${index}`;
-        
-        const previewWrapper = document.createElement('div');
-        previewWrapper.className = 'upload-placeholder';
-        previewWrapper.id = `previewWrapper_${index}`;
-        const iconElem = document.createElement('i');
-        iconElem.className = item.defaultIcon;
-        const textSpan = document.createElement('span');
-        textSpan.innerText = 'click to add photo';
-        previewWrapper.appendChild(iconElem);
-        previewWrapper.appendChild(textSpan);
-        
-        const imgElem = document.createElement('img');
-        imgElem.style.display = 'none';
-        imgElem.id = `polaroidImg_${index}`;
-        
-        imgContainer.appendChild(fileInput);
-        imgContainer.appendChild(previewWrapper);
-        imgContainer.appendChild(imgElem);
+        if (item.imageUrl && item.imageUrl !== null) {
+            // Display actual photo
+            const imgElem = document.createElement('img');
+            imgElem.src = item.imageUrl;
+            imgElem.alt = item.caption;
+            imgContainer.appendChild(imgElem);
+        } else {
+            // Display placeholder with icon
+            const placeholder = document.createElement('div');
+            placeholder.className = 'placeholder';
+            const iconElem = document.createElement('i');
+            iconElem.className = item.placeholderIcon;
+            const textSpan = document.createElement('span');
+            textSpan.innerText = 'add your photo';
+            placeholder.appendChild(iconElem);
+            placeholder.appendChild(textSpan);
+            imgContainer.appendChild(placeholder);
+        }
         
         const captionDiv = document.createElement('div');
         captionDiv.className = 'polaroid-caption';
@@ -787,24 +736,6 @@
         polaroidDiv.appendChild(imgContainer);
         polaroidDiv.appendChild(captionDiv);
         
-        polaroidDiv.addEventListener('click', (e) => {
-            e.stopPropagation();
-            fileInput.click();
-        });
-        
-        fileInput.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    imgElem.src = ev.target.result;
-                    imgElem.style.display = 'block';
-                    previewWrapper.style.display = 'none';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
         return polaroidDiv;
     }
     
@@ -812,7 +743,6 @@
     if (isPreviewMode) {
         // Preview mode: unlock immediately, show preview badge
         unlockWebsite();
-        // Add preview badge to indicate it's preview mode
         const badge = document.createElement('div');
         badge.className = 'preview-badge';
         badge.innerHTML = '<i class="fas fa-eye"></i> Preview Mode — You can see it early';
@@ -833,23 +763,34 @@
 </script>
 
 <!-- 
-    ✨ HOW TO USE ✨
+    ✨ HOW TO ADD YOUR PHOTOS ✨
     
-    TO PREVIEW (only you can do this):
-    - After deploying to Vercel, visit: https://your-site.vercel.app/?preview=true
-    - This will show you the full website immediately
+    To add real photos to the polaroid album:
     
-    FOR HER (on birthday):
-    - She will visit: https://your-site.vercel.app/ (without ?preview=true)
-    - She will see a lock screen counting down to November 8th
-    - On November 8th, the lock screen disappears and she sees the full gift
+    1. Upload your photos to a free image hosting site:
+       - Imgur: https://imgur.com/upload (after upload, right-click image and "Copy image address")
+       - PostImage: https://postimages.org/
+       - Or use Google Drive (create shareable link and get direct download link)
     
-    BIRTHDAY SET: November 8th (already configured)
+    2. Get the direct image URL (should end with .jpg, .png, .jpeg, etc.)
     
-    To deploy on Vercel:
-    1. Save this file as index.html
-    2. Create a new project on Vercel and upload this file
-    3. Share the URL with her after her birthday OR set it to auto-deploy
+    3. In the photoAlbum array (line ~365), replace "null" with your image URL:
+       
+       Example:
+       { 
+           caption: "Golden hour walks",
+           imageUrl: "https://i.imgur.com/your-photo.jpg",  // <-- PUT YOUR URL HERE
+           placeholderIcon: "fas fa-sun"
+       },
+    
+    4. Add up to 4 photos (or more by adding new objects to the array)
+    
+    TO PREVIEW (only you): visit https://your-site.vercel.app/?preview=true
+    SHE WILL SEE: lock screen until November 8th, then full photo album
+    
+    BIRTHDAY SET: November 8th ✓
+    PHOTOS: She cannot click them - they work like a photo album ✓
+    COUNTDOWN REMOVED from birthday magic section ✓
 -->
 </body>
 </html>
