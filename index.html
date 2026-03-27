@@ -264,27 +264,47 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
+        /* MODAL - Fixed to fit screen with scrolling */
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
             backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            padding: 1rem;
         }
         .modal-card {
             background: #fffbf5;
-            max-width: 480px;
-            width: 90%;
+            max-width: 550px;
+            width: 100%;
+            max-height: 85vh;
             border-radius: 48px;
-            padding: 2rem 1.8rem;
+            padding: 2rem 2rem 1.8rem 2rem;
             text-align: center;
             position: relative;
             box-shadow: 0 40px 50px rgba(0,0,0,0.2);
             animation: fadeSlideUp 0.3s ease;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        /* Custom scrollbar for modal */
+        .modal-card::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal-card::-webkit-scrollbar-track {
+            background: #f3ede8;
+            border-radius: 10px;
+        }
+        .modal-card::-webkit-scrollbar-thumb {
+            background: #d4b89c;
+            border-radius: 10px;
         }
         @keyframes fadeSlideUp {
             from {
@@ -297,26 +317,47 @@
             }
         }
         .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 24px;
+            position: sticky;
+            top: 0;
+            right: 0;
+            float: right;
             font-size: 1.8rem;
             cursor: pointer;
             color: #b47c4a;
+            background: #fffbf5;
+            width: fit-content;
+            margin-left: auto;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+            z-index: 10;
         }
-        .modal-card i {
-            font-size: 3.5rem;
+        .modal-card i:first-of-type {
+            font-size: 3rem;
             color: #e0a46b;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
         .modal-card h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-bottom: 1rem;
+            color: #b47c4a;
         }
-        .modal-card p {
-            font-size: 1rem;
+        .modal-content-text {
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.6;
             color: #5f4635;
+            margin: 0.5rem 0 1rem 0;
+            font-family: 'Inter', sans-serif;
+        }
+        .modal-content-text p {
+            margin-bottom: 0.8rem;
+        }
+        .modal-hearts {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #eedbcb;
+            text-align: center;
         }
 
         .floating-heart {
@@ -431,6 +472,16 @@
         @media (max-width: 700px) {
             .container { padding: 1rem; }
             .memory { width: 160px; }
+            .modal-card {
+                padding: 1.5rem;
+                max-height: 90vh;
+            }
+            .modal-card h3 {
+                font-size: 1.3rem;
+            }
+            .modal-content-text {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -499,11 +550,9 @@
 
         <div class="letter">
             <p>To my dearest Mamamia,</p>
-            <p style="margin-top: 0.5rem;">Another year of loving you, and honestly, I still feel so lucky to have you in my life. Hindi ko man palaging nasasabi, but you truly mean everything to me. You’re my comfort, my happiness, and the reason why my days feel so much better.
-
-Mamamia, I hope today you feel just how special you are. You deserve all the love, happiness, and success in the world. And I promise I’ll always be here for you—through everything, no matter what.
-
-Thank you for loving me, for staying, and for being such an amazing person. I’m always proud of you.</p>
+            <p style="margin-top: 0.5rem;">Another year of loving you, and honestly, I still feel so lucky to have you in my life. Hindi ko man palaging nasasabi, but you truly mean everything to me. You're my comfort, my happiness, and the reason why my days feel so much better.</p>
+            <p style="margin-top: 0.8rem;">Mamamia, I hope today you feel just how special you are. You deserve all the love, happiness, and success in the world. And I promise I'll always be here for you—through everything, no matter what.</p>
+            <p style="margin-top: 0.8rem;">Thank you for loving me, for staying, and for being such an amazing person. I'm always proud of you.</p>
             <div class="signature">Forever yours, <br> Cedie ♡</div>
         </div>
 
@@ -516,21 +565,22 @@ Thank you for loving me, for staying, and for being such an amazing person. I’
     </main>
 </div>
 
+<!-- MODAL - Fixed with scrolling for long content -->
 <div id="surpriseModal" class="modal">
     <div class="modal-card">
         <span class="close-modal" id="closeModalBtn">&times;</span>
         <i class="fas fa-crown"></i>
         <h3>A little birthday promise</h3>
-        <p>I’ll spend every day making you feel as cherished as you make me feel, Mamamia ❤️ Because that’s what you deserve—someone who reminds you every single day how important, loved, and valued you are.
-
-I’ll always take care of you, just like how you took care of me during that time when everything felt heavy for me back on March 26, 2026. I still remember how you stayed, how you listened, and how you made me feel like I wasn’t alone. Hindi ko makakalimutan ‘yon, because you didn’t just comfort me—you understood me. And that meant everything.
-
-That’s why I promise to be that same safe place for you. When things get overwhelming, when you feel tired, or even when you don’t have the words, I’ll be here. I’ll listen, I’ll stay, and I’ll never leave you to face things alone.
-
-Mamamia, you’re more than just someone I love—you’re someone I deeply care for and want to protect. I want to be there for your happiest moments, but also for your quiet and difficult ones. I want to support your dreams, celebrate your wins, and hold your hand through everything in between.
-
-No matter what happens, I’ll keep choosing you, every day. I’ll keep loving you in ways that make you feel safe, appreciated, and at home.</p>
-        <div style="margin-top: 1.5rem;"><i class="fas fa-heart" style="color:#e2a06b;"></i> <i class="fas fa-heart" style="color:#e2a06b;"></i> <i class="fas fa-heart" style="color:#e2a06b;"></i></div>
+        <div class="modal-content-text">
+            <p>I'll spend every day making you feel as cherished as you make me feel, Mamamia ❤️ Because that's what you deserve—someone who reminds you every single day how important, loved, and valued you are.</p>
+            <p>I'll always take care of you, just like how you took care of me during that time when everything felt heavy for me back on March 26, 2026. I still remember how you stayed, how you listened, and how you made me feel like I wasn't alone. Hindi ko makakalimutan 'yon, because you didn't just comfort me—you understood me. And that meant everything.</p>
+            <p>That's why I promise to be that same safe place for you. When things get overwhelming, when you feel tired, or even when you don't have the words, I'll be here. I'll listen, I'll stay, and I'll never leave you to face things alone.</p>
+            <p>Mamamia, you're more than just someone I love—you're someone I deeply care for and want to protect. I want to be there for your happiest moments, but also for your quiet and difficult ones. I want to support your dreams, celebrate your wins, and hold your hand through everything in between.</p>
+            <p>No matter what happens, I'll keep choosing you, every day. I'll keep loving you in ways that make you feel safe, appreciated, and at home.</p>
+        </div>
+        <div class="modal-hearts">
+            <i class="fas fa-heart" style="color:#e2a06b;"></i> <i class="fas fa-heart" style="color:#e2a06b;"></i> <i class="fas fa-heart" style="color:#e2a06b;"></i>
+        </div>
     </div>
 </div>
 
@@ -547,7 +597,6 @@ No matter what happens, I’ll keep choosing you, every day. I’ll keep loving 
     // ========== PHOTO ALBUM CONFIGURATION ==========
     // ADD YOUR PHOTOS HERE: Just list your image filenames!
     // Place your photos in the same folder as this HTML file
-    // or in an "images" folder (then use "images/1.jpg")
     
     const photoList = [
         { src: "1.jpg", caption: "Golden hour walks", rot: 2 },
@@ -558,12 +607,7 @@ No matter what happens, I’ll keep choosing you, every day. I’ll keep loving 
         { src: "6.jpg", caption: "Cherished memories", rot: -1 }
     ];
     
-    // You can add more photos by adding more objects to the array above
-    // Example: { src: "7.jpg", caption: "Sunset date", rot: 2 }
-    
-    // If you want to use a different folder, change the path below
-    // Example: "images/1.jpg" instead of "1.jpg"
-    const imageFolder = ""; // Leave empty for same folder, or use "images/"
+    const imageFolder = "";
     
     function isBirthdayToday() {
         const today = new Date();
@@ -618,7 +662,6 @@ No matter what happens, I’ll keep choosing you, every day. I’ll keep loving 
         }
     }
     
-    // Render the photo album with the image list
     function renderPhotoAlbum() {
         const albumContainer = document.getElementById('photoAlbum');
         if (!albumContainer) return;
@@ -634,15 +677,12 @@ No matter what happens, I’ll keep choosing you, every day. I’ll keep loving 
             img.src = imageFolder + photo.src;
             img.alt = photo.caption;
             
-            // Handle missing images gracefully
             img.onerror = function() {
                 this.style.backgroundColor = '#f0e3d8';
                 this.style.display = 'flex';
                 this.style.alignItems = 'center';
                 this.style.justifyContent = 'center';
                 this.alt = '📷 Photo coming soon';
-                // Create a fallback icon
-                const parent = this.parentElement;
                 this.style.opacity = '0.6';
             };
             
@@ -657,10 +697,8 @@ No matter what happens, I’ll keep choosing you, every day. I’ll keep loving 
     }
     
     function initWebsiteFeatures() {
-        // Render the photo album
         renderPhotoAlbum();
         
-        // Modal logic
         const modal = document.getElementById('surpriseModal');
         const surpriseBtn = document.getElementById('surpriseBtn');
         const closeModalBtn = document.getElementById('closeModalBtn');
@@ -710,9 +748,7 @@ No matter what happens, I’ll keep choosing you, every day. I’ll keep loving 
         }
     }
     
-    // DECISION: Show lock screen or unlock based on preview mode + birthday
     if (isPreviewMode) {
-        // Preview mode: unlock immediately, show preview badge
         unlockWebsite();
         const badge = document.createElement('div');
         badge.className = 'preview-badge';
@@ -721,7 +757,6 @@ No matter what happens, I’ll keep choosing you, every day. I’ll keep loving 
     } else if (isBirthdayToday()) {
         unlockWebsite();
     } else {
-        // Lock screen active, update countdown
         updateLockCountdown();
         setInterval(() => {
             if (isBirthdayToday()) {
@@ -734,32 +769,28 @@ No matter what happens, I’ll keep choosing you, every day. I’ll keep loving 
 </script>
 
 <!-- 
-    ✨ HOW TO ADD YOUR PHOTOS ✨
+    ✨ UPDATES MADE ✨
     
-    SIMPLE STEPS:
+    1. FIXED MODAL SCROLLING: The birthday promise modal now has proper scrolling
+       - Added max-height: 85vh and overflow-y: auto
+       - Content is now scrollable on any screen size
+       - Close button stays sticky at top
+       - Better spacing and readability
     
-    1. Save your photos with names: 1.jpg, 2.jpg, 3.jpg, 4.jpg, 5.jpg, 6.jpg
-       (or any filenames you want)
+    2. MODAL CONTENT FORMATTED: The long promise text is now properly structured
+       - Each paragraph has proper spacing
+       - Clean typography for easy reading
     
-    2. Place them in the SAME FOLDER as this HTML file
+    3. MOBILE RESPONSIVE: Modal adapts to smaller screens
+       - Smaller padding on mobile
+       - Adjusted font sizes for better readability
     
-    3. The photos will automatically appear in the album with random rotations!
+    HOW TO ADD PHOTOS:
+    - Place 1.jpg, 2.jpg, 3.jpg, 4.jpg, 5.jpg, 6.jpg in the same folder
+    - Or update the photoList array with your filenames
     
-    TO ADD MORE PHOTOS:
-    - Find the "photoList" array in the script (around line 280)
-    - Add more entries like this:
-    
-    { src: "7.jpg", caption: "Your caption here", rot: 2 },
-    { src: "8.jpg", caption: "Another memory", rot: -1 }
-    
-    TO USE A DIFFERENT FOLDER:
-    - Change the "imageFolder" variable (line 270) to your folder name
-    - Example: const imageFolder = "images/";
-    
-    BIRTHDAY: November 8th (already set)
+    BIRTHDAY: November 8th (already configured)
     PREVIEW MODE: Add ?preview=true to URL to see it early
-    
-    The album looks like a beautiful polaroid gallery with randomly rotated photos!
 -->
 </body>
 </html>
