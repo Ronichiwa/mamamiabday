@@ -505,6 +505,20 @@
     </div>
 </div>
 
+<!-- BIRTHDAY ENTRY SCREEN -->
+<div id="musicEntry" class="birthday-lock" style="display: none;">
+    <div class="lock-card">
+        <i class="fas fa-heart"></i>
+        <h2>A Little Something for You</h2>
+        <p>Happy birthday, Mamamia. Before you explore these memories, I have a little song for you.</p>
+        <button class="gift-btn" id="enterWebsiteBtn" type="button">
+            <i class="fas fa-envelope-open"></i>
+            Enter your surprise
+        </button>
+        <p class="birthday-message">Made with love, just for you ♡</p>
+    </div>
+</div>
+
 <!-- MAIN WEBSITE CONTENT -->
 <div id="mainContent" class="main-content">
     <div class="hero">
@@ -584,6 +598,11 @@
     </div>
 </div>
 
+<!-- Hidden background music; upload birthday-song.mp3 beside this HTML file -->
+<audio id="birthdayMusic" loop preload="auto">
+    <source src="birthday-song.mp3" type="audio/mpeg">
+</audio>
+
 <script>
     // ========== BIRTHDAY CONFIGURATION ==========
     // Mamamia's birthday: November 8th
@@ -652,15 +671,46 @@
         if (lockSecondsElem) lockSecondsElem.innerText = seconds < 10 ? '0' + seconds : seconds;
     }
     
+    // The birthday lock opens to an entry screen. Music starts only after her tap.
+    let websiteUnlocked = false;
+    let websiteEntered = false;
+
     function unlockWebsite() {
+        if (websiteUnlocked) return;
+        websiteUnlocked = true;
+
         const lockScreen = document.getElementById('birthdayLock');
-        const mainContent = document.getElementById('mainContent');
-        if (lockScreen && mainContent) {
-            lockScreen.style.display = 'none';
-            mainContent.classList.add('revealed');
-            initWebsiteFeatures();
-        }
+        const entryScreen = document.getElementById('musicEntry');
+
+        if (lockScreen) lockScreen.style.display = 'none';
+        if (entryScreen) entryScreen.style.display = 'flex';
     }
+
+    async function enterWebsite() {
+        if (websiteEntered) return;
+
+        const music = document.getElementById('birthdayMusic');
+        const entryScreen = document.getElementById('musicEntry');
+        const mainContent = document.getElementById('mainContent');
+
+        // Start playback directly from the visitor's button click.
+        if (music) {
+            try {
+                await music.play();
+            } catch (error) {
+                console.error('Could not start birthday music:', error);
+                alert('The music could not start. Please check that birthday-song.mp3 is uploaded and try again.');
+                return;
+            }
+        }
+
+        websiteEntered = true;
+        if (entryScreen) entryScreen.style.display = 'none';
+        if (mainContent) mainContent.classList.add('revealed');
+        initWebsiteFeatures();
+    }
+
+    document.getElementById('enterWebsiteBtn').addEventListener('click', enterWebsite);
     
     function renderPhotoAlbum() {
         const albumContainer = document.getElementById('photoAlbum');
@@ -705,7 +755,7 @@
         
         function openModal() {
             if (modal) modal.style.display = 'flex';
-            for(let i = 0; i < 12; i++) createFloatingHeart();
+            for (let i = 0; i < 12; i++) createFloatingHeart();
         }
         function closeModalFunc() { if (modal) modal.style.display = 'none'; }
         
@@ -790,6 +840,7 @@
     - Or update the photoList array with your filenames
     
     BIRTHDAY: November 8th (already configured)
+    MUSIC: Put birthday-song.mp3 beside this HTML file
     PREVIEW MODE: Add ?preview=true to URL to see it early
 -->
 </body>
