@@ -193,6 +193,27 @@
             object-fit: cover;
             border-radius: 12px;
             display: block;
+            cursor: pointer;
+        }
+        .memory img:focus-visible {
+            outline: 3px solid #c48b5f;
+            outline-offset: 4px;
+        }
+        .photo-message-card {
+            max-width: 560px;
+        }
+        .photo-message-card .photo-message-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            background: #f3ede8;
+            border-radius: 18px;
+            margin: 0.5rem 0 1rem;
+        }
+        .photo-message-card .modal-content-text {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
         }
         .memory-caption {
             margin-top: 10px;
@@ -505,6 +526,20 @@
     </div>
 </div>
 
+<!-- BIRTHDAY ENTRY SCREEN -->
+<div id="musicEntry" class="birthday-lock" style="display: none;">
+    <div class="lock-card">
+        <i class="fas fa-heart"></i>
+        <h2>A Little Something for You</h2>
+        <p>Happy birthday, Mamamia. Before you explore these memories, I have a little song for you.</p>
+        <button class="gift-btn" id="enterWebsiteBtn" type="button">
+            <i class="fas fa-envelope-open"></i>
+            Enter your surprise
+        </button>
+        <p class="birthday-message">Made with love, just for you ♡</p>
+    </div>
+</div>
+
 <!-- MAIN WEBSITE CONTENT -->
 <div id="mainContent" class="main-content">
     <div class="hero">
@@ -584,6 +619,29 @@
     </div>
 </div>
 
+<!-- PHOTO MEMORY MESSAGE POPUP -->
+<div id="photoMessageModal" class="modal" aria-hidden="true">
+    <div class="modal-card photo-message-card" role="dialog" aria-modal="true" aria-labelledby="photoMessageTitle">
+        <button type="button" class="close-modal" id="closePhotoMessage" aria-label="Close message" style="border:0; font-family:inherit;">&times;</button>
+        <i class="fas fa-heart" aria-hidden="true"></i>
+        <h3 id="photoMessageTitle">A memory just for you ♡</h3>
+        <img id="photoMessageImage" class="photo-message-image" src="" alt="Our special memory">
+        <div class="modal-content-text">
+            <p id="photoMessageText"></p>
+        </div>
+        <div class="modal-hearts">
+            <i class="fas fa-heart" style="color:#e2a06b;"></i>
+            <i class="fas fa-heart" style="color:#e2a06b;"></i>
+            <i class="fas fa-heart" style="color:#e2a06b;"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden background music; upload birthday-song.mp3 beside this HTML file -->
+<audio id="birthdayMusic" loop preload="auto">
+    <source src="birthday-song.mp3" type="audio/mpeg">
+</audio>
+
 <script>
     // ========== BIRTHDAY CONFIGURATION ==========
     // Mamamia's birthday: November 8th
@@ -598,13 +656,38 @@
     // ADD YOUR PHOTOS HERE: Just list your image filenames!
     // Place your photos in the same folder as this HTML file
     
+    // Each photo has its own title and message. Personalize these to match each picture.
     const photoList = [
-        { src: "1.jpg", caption: "Golden hour walks", rot: 2 },
-        { src: "2.jpg", caption: "First photo together", rot: -3 },
-        { src: "3.jpg", caption: "Our little adventures", rot: 1 },
-        { src: "4.jpg", caption: "Endless laughter", rot: -2 },
-        { src: "5.jpg", caption: "Beautiful moments", rot: 3 },
-        { src: "6.jpg", caption: "Cherished memories", rot: -1 }
+        {
+            src: "1.jpg", caption: "Golden hour walks", rot: 2,
+            title: "Our little golden moments 🌅",
+            message: "I wish I could keep moments like this in a little jar and open them whenever I miss those days. You made even an ordinary moment feel beautiful just by being there. Thank you for being part of my memories, Mamamia. ♡"
+        },
+        {
+            src: "2.jpg", caption: "First photo together", rot: -3,
+            title: "The beginning of a memory 🤎",
+            message: "Looking at this picture reminds me of how special it felt to have you in my life. I may not know what the future holds, but I will always be grateful that we got to share moments like this."
+        },
+        {
+            src: "3.jpg", caption: "Our little adventures", rot: 1,
+            title: "Every little adventure ✨",
+            message: "It was never just about where we went. It was about the laughter, the conversations, and having you beside me. Those little adventures became memories I will always carry with me."
+        },
+        {
+            src: "4.jpg", caption: "Endless laughter", rot: -2,
+            title: "Your laughter, my favorite sound ♡",
+            message: "Your laughter had a way of making difficult days feel lighter. I hope life gives you countless reasons to smile and laugh like that, because you deserve so much happiness."
+        },
+        {
+            src: "5.jpg", caption: "Beautiful moments", rot: 3,
+            title: "A moment worth keeping 🌷",
+            message: "Some moments may look simple in a photograph, but they mean so much more to the person remembering them. This is one of those moments for me. Thank you for being part of my story."
+        },
+        {
+            src: "6.jpg", caption: "Cherished memories", rot: -1,
+            title: "Always a cherished memory 💌",
+            message: "No matter how much life changes, I will never regret the beautiful memories we shared. On your birthday, I hope you remember how much good you bring into this world. Happy birthday, Mamamia. ♡"
+        }
     ];
     
     const imageFolder = "";
@@ -652,15 +735,46 @@
         if (lockSecondsElem) lockSecondsElem.innerText = seconds < 10 ? '0' + seconds : seconds;
     }
     
+    // The birthday lock opens to an entry screen. Music starts only after her tap.
+    let websiteUnlocked = false;
+    let websiteEntered = false;
+
     function unlockWebsite() {
+        if (websiteUnlocked) return;
+        websiteUnlocked = true;
+
         const lockScreen = document.getElementById('birthdayLock');
-        const mainContent = document.getElementById('mainContent');
-        if (lockScreen && mainContent) {
-            lockScreen.style.display = 'none';
-            mainContent.classList.add('revealed');
-            initWebsiteFeatures();
-        }
+        const entryScreen = document.getElementById('musicEntry');
+
+        if (lockScreen) lockScreen.style.display = 'none';
+        if (entryScreen) entryScreen.style.display = 'flex';
     }
+
+    async function enterWebsite() {
+        if (websiteEntered) return;
+
+        const music = document.getElementById('birthdayMusic');
+        const entryScreen = document.getElementById('musicEntry');
+        const mainContent = document.getElementById('mainContent');
+
+        // Start playback directly from the visitor's button click.
+        if (music) {
+            try {
+                await music.play();
+            } catch (error) {
+                console.error('Could not start birthday music:', error);
+                alert('The music could not start. Please check that birthday-song.mp3 is uploaded and try again.');
+                return;
+            }
+        }
+
+        websiteEntered = true;
+        if (entryScreen) entryScreen.style.display = 'none';
+        if (mainContent) mainContent.classList.add('revealed');
+        initWebsiteFeatures();
+    }
+
+    document.getElementById('enterWebsiteBtn').addEventListener('click', enterWebsite);
     
     function renderPhotoAlbum() {
         const albumContainer = document.getElementById('photoAlbum');
@@ -676,6 +790,32 @@
             const img = document.createElement('img');
             img.src = imageFolder + photo.src;
             img.alt = photo.caption;
+            img.tabIndex = 0;
+            img.setAttribute('role', 'button');
+            img.setAttribute('aria-label', 'Open memory: ' + photo.caption);
+
+            function openPhotoMessage() {
+                const messageModal = document.getElementById('photoMessageModal');
+                const messageTitle = document.getElementById('photoMessageTitle');
+                const messageImage = document.getElementById('photoMessageImage');
+                const messageText = document.getElementById('photoMessageText');
+                if (!messageModal || !messageTitle || !messageImage || !messageText) return;
+
+                messageTitle.textContent = photo.title || 'A memory just for you ♡';
+                messageImage.src = imageFolder + photo.src;
+                messageImage.alt = photo.caption;
+                messageText.textContent = photo.message || 'This is one of those little moments I will always treasure. ♡';
+                messageModal.style.display = 'flex';
+                messageModal.setAttribute('aria-hidden', 'false');
+            }
+
+            img.addEventListener('click', openPhotoMessage);
+            img.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openPhotoMessage();
+                }
+            });
             
             img.onerror = function() {
                 this.style.backgroundColor = '#f0e3d8';
@@ -702,10 +842,31 @@
         const modal = document.getElementById('surpriseModal');
         const surpriseBtn = document.getElementById('surpriseBtn');
         const closeModalBtn = document.getElementById('closeModalBtn');
+        const photoMessageModal = document.getElementById('photoMessageModal');
+        const closePhotoMessage = document.getElementById('closePhotoMessage');
+
+        function closePhotoMessageModal() {
+            if (photoMessageModal) {
+                photoMessageModal.style.display = 'none';
+                photoMessageModal.setAttribute('aria-hidden', 'true');
+            }
+        }
+
+        if (closePhotoMessage) {
+            closePhotoMessage.addEventListener('click', closePhotoMessageModal);
+        }
+        if (photoMessageModal) {
+            photoMessageModal.addEventListener('click', (event) => {
+                if (event.target === photoMessageModal) closePhotoMessageModal();
+            });
+        }
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closePhotoMessageModal();
+        });
         
         function openModal() {
             if (modal) modal.style.display = 'flex';
-            for(let i = 0; i < 12; i++) createFloatingHeart();
+            for (let i = 0; i < 12; i++) createFloatingHeart();
         }
         function closeModalFunc() { if (modal) modal.style.display = 'none'; }
         
@@ -790,6 +951,7 @@
     - Or update the photoList array with your filenames
     
     BIRTHDAY: November 8th (already configured)
+    MUSIC: Put birthday-song.mp3 beside this HTML file
     PREVIEW MODE: Add ?preview=true to URL to see it early
 -->
 </body>
